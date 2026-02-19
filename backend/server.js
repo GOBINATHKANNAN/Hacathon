@@ -12,8 +12,27 @@ const PORT = process.env.PORT || 5000;
 // Local upload directories creation removed for cloud deployment
 
 // Middleware
+// CORS configuration to allow multiple origins (Localhost + Vercel)
+const allowedOrigins = [
+    'http://localhost:5173',
+    'http://localhost:5000',
+    'https://hacathonfinal-cs2c.vercel.app',
+    process.env.FRONTEND_URL // Add the env variable as well
+];
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL || '*',
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+
+        // Allow any Vercel deployment (preview or production)
+        if (allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+            return callback(null, true);
+        }
+
+        const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+        return callback(new Error(msg), false);
+    },
     credentials: true
 }));
 app.use(express.json());

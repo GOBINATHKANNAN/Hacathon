@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Admin = require('./models/Admin');
+const Admin = require('../models/Admin');
 require('dotenv').config();
 
 const seedAdmin = async () => {
@@ -23,7 +23,7 @@ const seedAdmin = async () => {
         console.log('Admin created successfully:');
         console.log('Email: admin@tce.edu');
         console.log('Password: admin123');
-        
+
         process.exit(0);
     } catch (error) {
         console.error('Error seeding admin:', error);

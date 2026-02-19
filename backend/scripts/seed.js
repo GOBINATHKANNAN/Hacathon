@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
-const Admin = require('./models/Admin');
-const Proctor = require('./models/Proctor');
+const Admin = require('../models/Admin');
+const Proctor = require('../models/Proctor');
+require('dotenv').config(); // Load env variables
 
-const MONGO_URI = 'mongodb://127.0.0.1:27017/hackathon_portal';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/hackathon_portal';
 
 mongoose.connect(MONGO_URI)
     .then(async () => {
@@ -48,7 +49,7 @@ mongoose.connect(MONGO_URI)
             }
 
             // Create Dummy Student
-            const Student = require('./models/Student');
+            const Student = require('../models/Student');
             const studentExists = await Student.findOne({ email: 'student@student.tce.edu' });
             if (!studentExists) {
                 await Student.create({
